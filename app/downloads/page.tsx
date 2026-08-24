@@ -16,7 +16,7 @@ const files = [
   ["PAIR", "Ficha de investigação de perda auditiva induzida por ruído relacionada ao trabalho.", "pair.pdf"],
   ["Pneumoconioses", "Ficha de investigação de pneumoconioses relacionadas ao trabalho.", "pneumoconioses.pdf"],
   ["Transtornos mentais relacionados ao trabalho", "Ficha de investigação de transtornos mentais relacionados ao trabalho.", "transtornos-mentais-relacionados-trabalho.pdf"],
-  ["Violência interpessoal e autoprovocada", "Ficha de notificação individual de violência interpessoal e autoprovocada.", "violencia-interpessoal-autoprovocada.pdf"],
+  ["Violência interpessoal e autoprovocada", "Ficha de notificação individual de violência interpessoal e autoprovocada.", "violencia-interpessoal-autoprovocada-v2.pdf"],
   ["Intoxicação exógena", "Ficha de investigação de intoxicação exógena.", "intoxicacao-exogena.pdf"],
 ];
 
