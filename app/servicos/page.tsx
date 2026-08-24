@@ -1,0 +1,12 @@
+import { ContactBand, PageHero } from "../components";
+export const metadata={title:"Áreas de atuação"};
+const areas=[
+ ["Vigilância em Saúde do Trabalhador — VISAT","Inspeções em ambientes de trabalho; análise de riscos; investigação de acidentes graves e fatais; ações interinstitucionais e assessoria técnica aos municípios."],
+ ["Medicina do Trabalho","Diagnóstico e acompanhamento de doenças relacionadas ao trabalho; nexo causal; laudos e pareceres; orientação sobre CAT."],
+ ["Fisioterapia do Trabalho","Avaliação ergonômica e postural; tratamento de LER/DORT; reabilitação funcional e orientação para retorno ao trabalho."],
+ ["Enfermagem do Trabalho","Acolhimento e triagem; procedimentos de enfermagem; educação em saúde; vacinação ocupacional e apoio clínico."],
+ ["SINAN — Notificações","Registro e análise de agravos ocupacionais; indicadores regionais; capacitação da rede e monitoramento epidemiológico."],
+ ["Políticas Sociais","Acompanhamento social, promoção de direitos trabalhistas e previdenciários, encaminhamentos e articulação com a rede de proteção."],
+ ["Educação em Saúde","Palestras, seminários, capacitações para a rede SUS, campanhas preventivas e produção de materiais educativos."],
+];
+export default function Servicos(){return <><PageHero label="Áreas de atuação" title="Atuação técnica para prevenir, investigar e cuidar" intro="O CEREST não substitui a atenção básica ou os serviços de urgência. Ele funciona como referência especializada e articuladora da Saúde do Trabalhador na rede SUS."/><section className="section wrap"><div className="area-list">{areas.map(([t,d],i)=><article key={t}><div className="area-number">{String(i+1).padStart(2,"0")}</div><div><h2>{t}</h2><p>{d}</p></div></article>)}</div></section><section className="section soft"><div className="wrap prose-grid"><div><span className="eyebrow">Quem pode procurar</span><h2>O trabalho pode ter relação com seu adoecimento?</h2></div><div className="prose"><p>O atendimento contempla trabalhadores formais e informais, autônomos, rurais, desempregados, aposentados e crianças e adolescentes em situação de trabalho.</p><p>Em caso de urgência, procure imediatamente uma unidade de pronto atendimento. Para orientação especializada em Saúde do Trabalhador, fale com nossa equipe.</p></div></div></section><ContactBand/></>}

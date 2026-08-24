@@ -1,0 +1,3 @@
+import Link from "next/link";
+export function PageHero({label,title,intro}:{label:string,title:string,intro:string}){return <section className="page-hero"><div className="wrap"><span className="eyebrow light">{label}</span><h1>{title}</h1><p>{intro}</p></div></section>}
+export function ContactBand(){return <section className="cta"><div className="wrap"><div><span className="eyebrow light">Orientação gratuita</span><h2>Precisa falar com o CEREST?</h2><p>Atendemos trabalhadores e apoiamos profissionais e municípios da região.</p></div><Link className="button white" href="/contato">Ver canais de atendimento</Link></div></section>}
