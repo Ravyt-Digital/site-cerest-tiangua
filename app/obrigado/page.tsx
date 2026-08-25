@@ -1,0 +1,3 @@
+import Link from "next/link";
+export const metadata={title:"Mensagem preparada",description:"Confirmação do envio de uma solicitação de contato ao CEREST Tianguá."};
+export default function Obrigado(){return <section className="success-page"><div className="wrap"><span className="success-icon" aria-hidden="true">✓</span><span className="eyebrow">Solicitação preparada</span><h1>Obrigado por entrar em contato.</h1><p>O WhatsApp foi aberto com sua mensagem. Conclua o envio por lá para que a equipe do CEREST possa responder.</p><div className="actions"><Link className="button primary" href="/">Voltar ao início</Link><Link className="button ghost" href="/downloads">Ver documentos</Link></div></div></section>}

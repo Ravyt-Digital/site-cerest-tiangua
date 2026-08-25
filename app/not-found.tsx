@@ -1,0 +1,3 @@
+import Link from "next/link";
+export const metadata={title:"Página não encontrada",description:"A página solicitada não foi encontrada no site do CEREST Tianguá."};
+export default function NotFound(){return <section className="error-page"><div className="wrap"><span className="error-code">404</span><span className="eyebrow">Página não encontrada</span><h1>Este endereço não existe ou foi alterado.</h1><p>Use os atalhos abaixo para continuar navegando pelas informações do CEREST Tianguá.</p><div className="actions"><Link className="button primary" href="/">Voltar ao início</Link><Link className="button ghost" href="/contato">Falar com o CEREST</Link></div></div></section>}

@@ -1,5 +1,5 @@
 import { ContactBand, PageHero } from "../components";
-export const metadata={title:"Áreas de atuação"};
+export const metadata={title:"Áreas de atuação",description:"Conheça os serviços, atendimentos e ações de Vigilância em Saúde do Trabalhador realizadas pelo CEREST Tianguá."};
 const areas=[
  ["Vigilância em Saúde do Trabalhador — VISAT","Inspeções em ambientes de trabalho; análise de riscos; investigação de acidentes graves e fatais; ações interinstitucionais e assessoria técnica aos municípios."],
  ["Medicina do Trabalho","Diagnóstico e acompanhamento de doenças relacionadas ao trabalho; nexo causal; laudos e pareceres; orientação sobre CAT."],
