@@ -15,6 +15,7 @@
     "db:generate": "bash scripts/sites-env.sh -- drizzle-kit generate"
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "2.2.0",
     "drizzle-orm": "0.45.2",
     "next": "16.2.6",
     "react": "19.2.6",
@@ -39,5 +40,5 @@
     "wrangler": "4.92.0"
   },
   "type": "module",
-  "displayName": "CEREST Tiangu\u00e1 \u2014 Eduardo Jos\u00e9 da Silva"
+  "displayName": "CEREST Tianguá — Eduardo José da Silva"
 }

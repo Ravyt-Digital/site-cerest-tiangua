@@ -1,6 +1,7 @@
 "use client";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 export function CookieBanner(){const [open,setOpen]=useState(false);useEffect(()=>{if(!localStorage.getItem("cerest-cookie-choice"))setOpen(true)},[]);function choose(value:"accepted"|"essential"){localStorage.setItem("cerest-cookie-choice",value);window.dispatchEvent(new Event("cerest-consent"));setOpen(false)}if(!open)return null;return <aside className="cookie-banner" role="dialog" aria-modal="false" aria-labelledby="cookie-title" aria-describedby="cookie-description"><div className="cookie-copy"><b id="cookie-title">Sua privacidade importa</b><p id="cookie-description">Usamos cookies essenciais para o funcionamento do site. Com sua autorização, também usamos métricas anônimas para melhorar nossos conteúdos e serviços.</p><div className="cookie-links"><a href="/politica-de-privacidade">Política de Privacidade</a><a href="/termos-de-uso">Termos de Uso</a></div></div><div className="cookie-actions"><button type="button" onClick={()=>choose("essential")}>Recusar</button><button type="button" className="accept" onClick={()=>choose("accepted")}>Aceitar</button></div></aside>}
 
@@ -12,6 +13,14 @@ export function ContactForm() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaTokenRef = useRef("");
+  const captchaRef = useRef<HCaptcha>(null);
+
+  function clearCaptcha() {
+    captchaTokenRef.current = "";
+    setCaptchaToken("");
+  }
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -28,6 +37,8 @@ export function ContactForm() {
     if (!subject) { setError("Informe o assunto da sua solicitação."); return; }
     if (message.length < 10) { setError("Descreva sua solicitação com pelo menos 10 caracteres."); return; }
     if (!form.get("privacy")) { setError("Você precisa concordar com a Política de Privacidade."); return; }
+    if (!captchaTokenRef.current) { setError("Complete a verificação de segurança antes de enviar."); return; }
+    form.set("h-captcha-response", captchaTokenRef.current);
     form.set("name", name);
     form.set("phone", phone);
     form.set("subject", subject);
@@ -48,6 +59,8 @@ export function ContactForm() {
     } catch {
       setError("Não foi possível enviar sua mensagem. Tente novamente ou entre em contato pelo telefone ou WhatsApp.");
     } finally {
+      clearCaptcha();
+      captchaRef.current?.resetCaptcha();
       setSending(false);
     }
   }
@@ -59,6 +72,20 @@ export function ContactForm() {
     <div><label htmlFor="message">Como podemos orientar?</label><textarea id="message" name="message" rows={5} required/></div>
     <input type="checkbox" name="botcheck" hidden tabIndex={-1} aria-hidden="true"/>
     <label className="privacy-check"><input type="checkbox" name="privacy" required/> Li e concordo com a <a href="/politica-de-privacidade">Política de Privacidade</a>.</label>
+    <div className="captcha-field">
+      <HCaptcha
+        ref={captchaRef}
+        sitekey="50b2fe65-b00b-4b9e-ad62-3ba471098be2"
+        reCaptchaCompat={false}
+        languageOverride="pt"
+        theme="light"
+        size="compact"
+        onVerify={(token) => { captchaTokenRef.current = token; setCaptchaToken(token); setError(""); }}
+        onExpire={() => { clearCaptcha(); setError("A verificação de segurança expirou. Faça a verificação novamente."); }}
+        onError={() => { clearCaptcha(); setError("Não foi possível carregar a verificação de segurança. Recarregue a página ou fale conosco pelo telefone ou WhatsApp."); }}
+      />
+    </div>
+    <input type="hidden" name="h-captcha-response" value={captchaToken}/>
     {error && <p className="form-error" role="alert">{error}</p>}
     <button className="button primary" type="submit" disabled={sending}>{sending ? "Enviando..." : "Enviar mensagem"}</button>
   </form>;
