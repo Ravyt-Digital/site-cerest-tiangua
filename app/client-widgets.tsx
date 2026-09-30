@@ -8,4 +8,58 @@ export function Analytics(){useEffect(()=>{const id=process.env.NEXT_PUBLIC_GA_I
 
 export function MobileCta(){return <a className="mobile-fixed-cta" href="https://wa.me/5588993112313" aria-label="Falar com o CEREST Tianguá pelo WhatsApp">Falar no WhatsApp</a>}
 
-export function ContactForm(){const router=useRouter();const [error,setError]=useState("");const [sending,setSending]=useState(false);function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();setError("");const form=new FormData(e.currentTarget);const name=String(form.get("name")||"").trim();const phone=String(form.get("phone")||"").trim();const message=String(form.get("message")||"").trim();const privacy=form.get("privacy");if(name.length<2){setError("Informe seu nome.");return}if(phone.replace(/\D/g,"").length<10){setError("Informe um telefone válido com DDD.");return}if(message.length<10){setError("Descreva sua solicitação com pelo menos 10 caracteres.");return}if(!privacy){setError("Você precisa concordar com a Política de Privacidade.");return}setSending(true);const text=`Olá, sou ${name}.%0A%0ATelefone: ${phone}%0A%0ASolicitação: ${message}`;window.open(`https://wa.me/5588993112313?text=${encodeURIComponent(text.replaceAll("%0A","\n"))}`,"_blank","noopener,noreferrer");setTimeout(()=>router.push("/obrigado"),500)}return <form className="contact-form" onSubmit={submit} noValidate><div><label htmlFor="name">Nome</label><input id="name" name="name" autoComplete="name" required/></div><div><label htmlFor="phone">Telefone com DDD</label><input id="phone" name="phone" inputMode="tel" autoComplete="tel" required/></div><div><label htmlFor="message">Como podemos orientar?</label><textarea id="message" name="message" rows={5} required/></div><label className="privacy-check"><input type="checkbox" name="privacy"/> Li e concordo com a <a href="/politica-de-privacidade">Política de Privacidade</a>.</label>{error&&<p className="form-error" role="alert">{error}</p>}<button className="button primary" type="submit" disabled={sending}>{sending?"Abrindo WhatsApp...":"Preparar mensagem"}</button></form>}
+export function ContactForm() {
+  const router = useRouter();
+  const [error, setError] = useState("");
+  const [sending, setSending] = useState(false);
+
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (sending) return;
+    setError("");
+    const element = e.currentTarget;
+    const form = new FormData(element);
+    const name = String(form.get("name") || "").trim();
+    const phone = String(form.get("phone") || "").trim();
+    const subject = String(form.get("subject") || "").trim();
+    const message = String(form.get("message") || "").trim();
+    if (name.length < 2) { setError("Informe seu nome."); return; }
+    if (phone.replace(/\D/g, "").length < 10) { setError("Informe um telefone válido com DDD."); return; }
+    if (!subject) { setError("Informe o assunto da sua solicitação."); return; }
+    if (message.length < 10) { setError("Descreva sua solicitação com pelo menos 10 caracteres."); return; }
+    if (!form.get("privacy")) { setError("Você precisa concordar com a Política de Privacidade."); return; }
+    form.set("name", name);
+    form.set("phone", phone);
+    form.set("subject", subject);
+    form.set("message", message);
+    form.set("access_key", "72cc149a-87b1-404e-af58-9f44a16afcbc");
+    form.set("from_name", "Site CEREST Tianguá");
+    setSending(true);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: form,
+        signal: AbortSignal.timeout(20000),
+      });
+      const result = await response.json();
+      if (!response.ok || result.success !== true) throw new Error("Submission failed");
+      element.reset();
+      router.push("/obrigado");
+    } catch {
+      setError("Não foi possível enviar sua mensagem. Tente novamente ou entre em contato pelo telefone ou WhatsApp.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return <form className="contact-form" onSubmit={submit} noValidate aria-busy={sending}>
+    <div><label htmlFor="name">Nome</label><input id="name" name="name" autoComplete="name" required/></div>
+    <div><label htmlFor="phone">Telefone com DDD</label><input id="phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" required/></div>
+    <div><label htmlFor="subject">Assunto</label><input id="subject" name="subject" type="text" required/></div>
+    <div><label htmlFor="message">Como podemos orientar?</label><textarea id="message" name="message" rows={5} required/></div>
+    <input type="checkbox" name="botcheck" hidden tabIndex={-1} aria-hidden="true"/>
+    <label className="privacy-check"><input type="checkbox" name="privacy" required/> Li e concordo com a <a href="/politica-de-privacidade">Política de Privacidade</a>.</label>
+    {error && <p className="form-error" role="alert">{error}</p>}
+    <button className="button primary" type="submit" disabled={sending}>{sending ? "Enviando..." : "Enviar mensagem"}</button>
+  </form>;
+}
