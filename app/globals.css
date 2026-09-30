@@ -24,3 +24,14 @@
 .prevention-grid img{object-fit:contain;object-position:center;background:#fff}
 .cookie-links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:8px}.cookie-links a{font-weight:700}.cookie-actions button:focus-visible,.cookie-links a:focus-visible{outline:3px solid rgba(120,185,67,.45);outline-offset:3px}
 @media(max-width:620px){.agravo-grid img{height:auto;max-height:260px;aspect-ratio:16/9}.prevention-grid img{aspect-ratio:auto;height:auto}.cookie-links{gap:8px 14px}}
+
+/* Responsive header navigation */
+.navigation-controls{display:contents}.mobile-menu-toggle,.mobile-menu-whatsapp{display:none}.site-menu a:focus-visible,.mobile-menu-toggle:focus-visible{outline:3px solid var(--green);outline-offset:4px}
+@media(max-width:900px){
+  header .nav{gap:14px}.brand{min-width:0}.brand span{min-width:0}.brand img{flex-shrink:0}.navigation-controls{display:block;flex-shrink:0}
+  header .nav-cta{display:none}.mobile-menu-toggle{display:flex;align-items:center;justify-content:center;gap:9px;min-width:88px;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--green);font:inherit;font-size:14px;font-weight:750;cursor:pointer}
+  .menu-icon{display:flex;flex-direction:column;justify-content:space-between;width:20px;height:16px}.menu-icon span{display:block;width:20px;height:2px;background:currentColor;transition:transform .2s,opacity .2s}.menu-icon.is-open span:first-child{transform:translateY(7px) rotate(45deg)}.menu-icon.is-open span:nth-child(2){opacity:0}.menu-icon.is-open span:last-child{transform:translateY(-7px) rotate(-45deg)}
+  header .site-menu{display:none;position:absolute;top:100%;left:0;right:0;padding:12px 20px 18px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 16px 24px rgba(10,61,38,.12);max-height:calc(100dvh - 120px);overflow-y:auto;gap:0;font-size:16px}
+  header .site-menu.is-open{display:flex;flex-direction:column}header .site-menu a{display:block;padding:14px 12px;min-height:48px;border-radius:6px}header .site-menu a:hover,header .site-menu a[aria-current="page"]{background:var(--soft);color:var(--green)}header .site-menu .mobile-menu-whatsapp{display:block;margin-top:8px;background:var(--green);color:#fff}
+}
+@media(prefers-reduced-motion:reduce){.menu-icon span{transition:none}}
